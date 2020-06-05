@@ -6,6 +6,8 @@ public class Examine : MonoBehaviour
 {
     Camera cam; 
     GameObject selectedObj;
+    RaycastHit hit;
+ 
 
     Vector3 originPosition;
     Vector3 originRotation;
@@ -35,21 +37,27 @@ public class Examine : MonoBehaviour
 
     private void onSelectedObj()
     {
-        RaycastHit hit;
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        if(Physics.Raycast(ray, out hit))
+        if (Input.GetMouseButtonDown(0) && examinable == false)
         {
-            selectedObj = hit.transform.gameObject;
 
-            originPosition = selectedObj.transform.position;
-            originRotation = selectedObj.transform.rotation.eulerAngles;
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            selectedObj.transform.position = cam.transform.position + (transform.forward * 3f);
+            if (Physics.Raycast(ray, out hit) && hit.transform.tag == "item")
+            {
+                
+                selectedObj = hit.transform.gameObject;
 
-            Time.timeScale = 0;
+                originPosition = selectedObj.transform.position;
+                originRotation = selectedObj.transform.rotation.eulerAngles;
 
-            examinable = true; 
+                selectedObj.transform.position = cam.transform.position + (transform.forward * 2f);
+
+
+                Time.timeScale = 0;
+
+                examinable = true;
+            }
         }
     }
     private void turnAround()
@@ -70,8 +78,9 @@ public class Examine : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(1) && examinable)
         {
+           
             selectedObj.transform.position = originPosition;
-            selectedObj.transform.position = originRotation;
+            selectedObj.transform.eulerAngles = originRotation;
 
             Time.timeScale = 1;
 
