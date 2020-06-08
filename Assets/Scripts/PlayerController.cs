@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Character options")]
     public float gravity = 20.0f;
-    public float movementSpeed = 40;
+    public float movementSpeed = 15;
     public float jumpSpeed = 8.0f;
 
     [Header("Camera options")]

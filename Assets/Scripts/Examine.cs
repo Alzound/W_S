@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class Examine : MonoBehaviour
@@ -7,12 +8,14 @@ public class Examine : MonoBehaviour
     Camera cam; 
     GameObject selectedObj;
     RaycastHit hit;
- 
+    public int i = 0; 
 
     Vector3 originPosition;
     Vector3 originRotation;
 
-    bool examinable; 
+    bool examinable;
+    bool destruction = false;
+    bool theEnd = false; 
 
 
     // Start is called before the first frame update
@@ -26,12 +29,11 @@ public class Examine : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        onSelectedObj();
+            onSelectedObj();
 
-        turnAround();
+            turnAround();
 
-        ExitExamination();
-
+            ExitExamination();
 
     }
 
@@ -53,11 +55,46 @@ public class Examine : MonoBehaviour
 
                 selectedObj.transform.position = cam.transform.position + (transform.forward * 2f);
 
-
+                
                 Time.timeScale = 0;
 
                 examinable = true;
             }
+
+            else if(Physics.Raycast(ray, out hit) && hit.transform.tag == "KeyObject")
+            {
+
+                 
+                    selectedObj = hit.transform.gameObject;
+
+                    originPosition = selectedObj.transform.position;
+                    originRotation = selectedObj.transform.rotation.eulerAngles;
+
+                    selectedObj.transform.position = cam.transform.position + (transform.forward * 2f);
+
+
+                    Time.timeScale = 0;
+
+                    destruction = true; 
+                
+            }
+            else if (Physics.Raycast(ray, out hit) && hit.transform.tag == "TheEnd")
+            {
+                Debug.Log("Juasjuas");
+                selectedObj = hit.transform.gameObject;
+
+                originPosition = selectedObj.transform.position;
+                originRotation = selectedObj.transform.rotation.eulerAngles;
+
+                selectedObj.transform.position = cam.transform.position + (transform.forward * 2f);
+
+
+                Time.timeScale = 0;
+
+                theEnd = true; 
+            }
+
+
         }
     }
     private void turnAround()
@@ -76,15 +113,33 @@ public class Examine : MonoBehaviour
 
     private void ExitExamination()
     {
-        if(Input.GetMouseButtonDown(1) && examinable)
+        if(Input.GetMouseButtonDown(1) && examinable )
         {
-           
             selectedObj.transform.position = originPosition;
             selectedObj.transform.eulerAngles = originRotation;
 
             Time.timeScale = 1;
+            examinable = false;
 
-            examinable = false; 
+           
+        }
+        else if (Input.GetMouseButtonDown(1)&&destruction==true)
+        {
+            i++;
+            examinable = false;
+            Destroy(selectedObj);
+            Time.timeScale = 1; 
+         
+        }
+        else if (Input.GetMouseButtonDown(1) && theEnd==true)
+        {
+
+            examinable = false;
+
+            Time.timeScale = 1;
+
+            Application.Quit();
+
         }
     }
 }
