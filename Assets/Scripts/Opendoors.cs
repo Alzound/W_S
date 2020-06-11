@@ -1,29 +1,35 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Audio; 
 using UnityEngine;
 
 public class Opendoors : MonoBehaviour
 {
     public int opc=5;
-    public int rot=90; 
+    public int rot=90;
+    AudioSource audioData;
+    public AudioClip firstTrack;
+    public GameObject trigger; 
+
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        
+
+        audioData = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
         Options();
+        theEnd();
     }
 
     void Options()
     {
-        if(gameObject.tag== "Door1" && GameObject.Find("Main Camera").GetComponent<Examine>().i == 1 )
+        if(gameObject.tag == "Door1" && GameObject.Find("Main Camera").GetComponent<Examine>().i == 1 )
         {
-       
             gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
         }
         else if (gameObject.tag == "Door2" && GameObject.Find("Main Camera").GetComponent<Examine>().i == 2)
@@ -45,6 +51,15 @@ public class Opendoors : MonoBehaviour
         {
 
             gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        
+    }
+
+    void theEnd()
+    {
+        if (this.gameObject.tag == "Nightmare" && trigger == true && gameObject.tag == "Door5")
+        {
+            gameObject.transform.rotation = Quaternion.Euler(0, 90, 0);
         }
     }
 }

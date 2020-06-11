@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Examine : MonoBehaviour
 {
+
     Camera cam; 
     GameObject selectedObj;
     RaycastHit hit;
@@ -15,7 +16,7 @@ public class Examine : MonoBehaviour
 
     bool examinable;
     bool destruction = false;
-    bool theEnd = false; 
+    bool theEnd = false;
 
 
     // Start is called before the first frame update
@@ -45,15 +46,15 @@ public class Examine : MonoBehaviour
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(ray, out hit) && hit.transform.tag == "item")
+            if (Physics.Raycast(ray, out hit, 8) && hit.transform.tag == "item")
             {
-                
+
                 selectedObj = hit.transform.gameObject;
 
                 originPosition = selectedObj.transform.position;
                 originRotation = selectedObj.transform.rotation.eulerAngles;
 
-                selectedObj.transform.position = cam.transform.position + (transform.forward * 2f);
+                selectedObj.transform.position = cam.transform.position + (transform.forward * 3.1f);
 
                 
                 Time.timeScale = 0;
@@ -61,16 +62,17 @@ public class Examine : MonoBehaviour
                 examinable = true;
             }
 
-            else if(Physics.Raycast(ray, out hit) && hit.transform.tag == "KeyObject")
+            else if(Physics.Raycast(ray, out hit, 8) && hit.transform.tag == "KeyObject")
             {
 
-                 
-                    selectedObj = hit.transform.gameObject;
+              
+
+                selectedObj = hit.transform.gameObject;
 
                     originPosition = selectedObj.transform.position;
                     originRotation = selectedObj.transform.rotation.eulerAngles;
 
-                    selectedObj.transform.position = cam.transform.position + (transform.forward * 2f);
+                    selectedObj.transform.position = cam.transform.position + (transform.forward * 3.1f);
 
 
                     Time.timeScale = 0;
@@ -78,15 +80,18 @@ public class Examine : MonoBehaviour
                     destruction = true; 
                 
             }
-            else if (Physics.Raycast(ray, out hit) && hit.transform.tag == "TheEnd")
+            else if (Physics.Raycast(ray, out hit, 8) && hit.transform.tag == "TheEnd")
             {
                 Debug.Log("Juasjuas");
+              
+
+
                 selectedObj = hit.transform.gameObject;
 
                 originPosition = selectedObj.transform.position;
                 originRotation = selectedObj.transform.rotation.eulerAngles;
 
-                selectedObj.transform.position = cam.transform.position + (transform.forward * 2f);
+                selectedObj.transform.position = cam.transform.position + (transform.forward * 3.1f);
 
 
                 Time.timeScale = 0;
