@@ -17,6 +17,9 @@ public class Examine : MonoBehaviour
     bool examinable;
     bool destruction = false;
     bool theEnd = false;
+    RaycastHit Hit;
+
+    public ScrVoiceOverLogic scrVoiceOverLogic;
 
 
     // Start is called before the first frame update
@@ -43,7 +46,7 @@ public class Examine : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && examinable == false)
         {
 
-            RaycastHit hit;
+            
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out hit, 8) && hit.transform.tag == "item")
@@ -64,8 +67,7 @@ public class Examine : MonoBehaviour
 
             else if(Physics.Raycast(ray, out hit, 8) && hit.transform.tag == "KeyObject")
             {
-
-              
+                scrVoiceOverLogic.ReproduceVoiceOver(hit.transform.gameObject.GetComponent<VoiceOverTrigger>().voiceOverIndex);
 
                 selectedObj = hit.transform.gameObject;
 
@@ -75,7 +77,7 @@ public class Examine : MonoBehaviour
                     selectedObj.transform.position = cam.transform.position + (transform.forward * 3.1f);
 
 
-                    Time.timeScale = 0;
+                Time.timeScale = 0; 
 
                     destruction = true; 
                 

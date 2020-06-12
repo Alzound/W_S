@@ -5,10 +5,8 @@ using UnityEngine;
 
 public class Opendoors : MonoBehaviour
 {
-    public int opc=5;
-    public int rot=90;
+   
     AudioSource audioData;
-    public AudioClip firstTrack;
     public GameObject trigger; 
 
 
