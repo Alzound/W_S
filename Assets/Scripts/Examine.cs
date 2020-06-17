@@ -16,7 +16,7 @@ public class Examine : MonoBehaviour
 
     bool examinable;
     bool destruction = false;
-    bool theEnd = false;
+  
     RaycastHit Hit;
 
     public ScrVoiceOverLogic scrVoiceOverLogic;
@@ -41,12 +41,14 @@ public class Examine : MonoBehaviour
 
     }
 
+    //All of the following code helps me to know when the raycast hits and object with a the specific tag. 
     private void onSelectedObj()
     {
         if (Input.GetMouseButtonDown(0) && examinable == false)
         {
 
-            
+            //If it is only an item then the player can grab it and then rotate it.
+            //Then the object returns to it's original position because the value of it was save in another variable. 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out hit, 8) && hit.transform.tag == "item")
@@ -65,6 +67,7 @@ public class Examine : MonoBehaviour
                 examinable = true;
             }
 
+            //Same as before but when it's a keyobject the player takes it, and the game destroys it, so we can save the hard work of doing an inventory. 
             else if(Physics.Raycast(ray, out hit, 8) && hit.transform.tag == "KeyObject")
             {
                 scrVoiceOverLogic.ReproduceVoiceOver(hit.transform.gameObject.GetComponent<VoiceOverTrigger>().voiceOverIndex);
@@ -82,6 +85,9 @@ public class Examine : MonoBehaviour
                     destruction = true; 
                 
             }
+            //Originally this following lines of code where in case the player grabbed the gun in the final segment. 
+            //But the professor didn't like it, so... There's that, a thing that could have been but not very subtle. 
+            /*
             else if (Physics.Raycast(ray, out hit, 8) && hit.transform.tag == "TheEnd")
             {
                 Debug.Log("Juasjuas");
@@ -101,11 +107,13 @@ public class Examine : MonoBehaviour
                 theEnd = true; 
             }
 
-
+            */
         }
     }
     private void turnAround()
     {
+        //This is going to rotate the object taking the movement from the camera. 
+        //Also, bless Youtube.
         if(Input.GetMouseButton (0) && examinable)
         {
             float rotationsSpeed = 15;
@@ -120,6 +128,7 @@ public class Examine : MonoBehaviour
 
     private void ExitExamination()
     {
+        //With this when the player clicks the right button of the mouse the object returns to it's original position.
         if(Input.GetMouseButtonDown(1) && examinable )
         {
             selectedObj.transform.position = originPosition;
@@ -130,6 +139,7 @@ public class Examine : MonoBehaviour
 
            
         }
+        //But if it's this case, and the destruction value coming from keyobject is true then the object is destroyed when pressed right click. 
         else if (Input.GetMouseButtonDown(1)&&destruction==true)
         {
             i++;
@@ -138,16 +148,7 @@ public class Examine : MonoBehaviour
             Time.timeScale = 1; 
          
         }
-        else if (Input.GetMouseButtonDown(1) && theEnd==true)
-        {
-
-            examinable = false;
-
-            Time.timeScale = 1;
-
-            Application.Quit();
-
-        }
+   
     }
 }
 

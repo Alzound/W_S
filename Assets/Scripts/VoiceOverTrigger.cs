@@ -4,5 +4,6 @@ using UnityEngine;
 
 public class VoiceOverTrigger : MonoBehaviour
 {
+    
     public VoiceOverCatalog voiceOverIndex;
 }
